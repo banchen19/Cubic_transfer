@@ -1,8 +1,3 @@
-﻿# Multilanguage provided to the plugin, use identifiers=text to specify a multilingual text,such a
-# testplugin.helloworld=Hello World!
-# Support for multilingual text of parameters,such as
-# testplugin.helloworld=Hello {%0}!
-# {%n} will be populated with arguments with index n
-exampleplugin.helloworld=你好 {%0}!
-exampleplugin.examplecommand.description=这是一个测试命令。
+﻿exampleplugin.warning=警告!
+exampleplugin.illegality=非法行为。
 exampleplugin.args.missing=缺少参数

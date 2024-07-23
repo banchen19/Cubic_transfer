@@ -1,9 +1,0 @@
-{
-  "resource_pack_name": "nukkit-mot",
-  "texture_name": "atlas.items",
-  "texture_data": {
-    "candy_cane_sword": {
-      "textures": "textures/items/candy_cane_sword"
-    }
-  }
-}

@@ -4,16 +4,19 @@
     <modelVersion>4.0.0</modelVersion>
     <!-- Don't use the Nukkit namespace for your own plugins -->
     <groupId>cn.nukkitmot</groupId>
-    <artifactId>example-plugin</artifactId>
+    <!--    插件名-->
+    <artifactId>cubic_transfer</artifactId>
     <version>1.0.0</version>
-    <name>ExamplePlugin</name>
-    <description>An Example Nukkit-MOT Plugin</description>
+    <name>Cubic_Transfer</name>
+    <description>这是一个立方传送插件</description>
     <url>https://github.com/MemoriesOfTime/ExamplePlugin-Maven/</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
+        <nukkitPluginsPath>G:\nk-mot-ser\mot-server\plugins</nukkitPluginsPath>
     </properties>
 
     <repositories>
@@ -34,6 +37,12 @@
             <version>MOT-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.46.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -45,5 +54,51 @@
     
     <build>
         <defaultGoal>clean package</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <outputDirectory>${nukkitPluginsPath}</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${nukkitPluginsPath}</directory>
+                            <includes>
+                                <include>${artifactId}*.jar</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>pre-clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>

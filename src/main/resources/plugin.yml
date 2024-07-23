@@ -1,36 +1,26 @@
 #name, main, version and api are required
-name: ExamplePlugin-Maven
-main: cn.nukkitmot.exampleplugin.ExamplePlugin
+name: Cubic_Transfer_Plugin
+main: cn.nukkitmot.banchen.Cubic_Transfer_Plugin
 #remember version and api is string, don't write it like this: 1.0.0, or there will be an exception
 version: "1.0.0"
 api: ["1.0.5"]
 load: POSTWORLD
-author: Nukkit Project
+author: banchen
 # Authors and author will be added together in one list.
-authors: ["Example", "Another"]
-description: Example plugin showing the API
-website: https://github.com/MemoriesOfTime/ExamplePlugin-Maven/
-# These dependencies are required for the plugin to start.
-#depend: ["OtherPlugin", "ThisPlugin"]
-# These dependencies are not required.
-softdepend: ["PluginA", "PluginB"]
-# Log prefix in console
-prefix: "Example"
-# Plugin will be loaded before these. Any cyclic loadbefore's or dependencies's will throw errors!
+authors: ["banchen"]
+description: 这是一个立方传送插件
+website: https://github.com/banchen19/Cubic_transfer
+prefix: "立方传送"
 loadbefore: ["ImportantPlugin"]
 
 commands:
-  example:
-    description: Example command
-    usage: "/example"
-    aliases: ["xample", "nukkitexample"]
-    permission: exampleplugin.command.example
+  ct:
+    description: 立方的建立管理与删除
+    usage: "/ct"
+    aliases: ["cubic_transfer"]
+    permission: ct.command
     permission-message: "You do not have the required permission to run /example"
 permissions:
-  exampleplugin.command.example:
-    description: "Allows the user to run the example command"
+  ct.command:
+    description: "你还没有拥有这个权限"
     default: true
-#   children:
-#     exampleplugin.command.example.test:
-#       description: "Use the test feature in the example command"
-#       default: true
