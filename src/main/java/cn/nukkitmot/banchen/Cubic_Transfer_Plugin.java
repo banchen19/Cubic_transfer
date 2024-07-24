@@ -45,8 +45,8 @@ public class Cubic_Transfer_Plugin extends PluginBase {
 //                //Default values (not necessary)
 //                new ConfigSection(new LinkedHashMap<>() {
 //                    {
-//                        put("delay", 1000);
-//                        put("period", 20); //you can also put other standard objects!
+//                        put("transfer_server", "");
+//                        put("transfer_pos", ""); //you can also put other standard objects!
 //                    }
 //                }));
 //        config.save();

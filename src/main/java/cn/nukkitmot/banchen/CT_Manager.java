@@ -260,15 +260,14 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
                 transferPacket.address = address;
                 transferPacket.port = port;
                 player.dataPacket(transferPacket);
-                player.sendMessage(TextFormat.YELLOW + "跨服传送:" + TextFormat.GREEN + address + ":" + port);
+//                player.sendMessage(TextFormat.YELLOW + "跨服传送:" + TextFormat.GREEN + address + ":" + port);
             } else {
                 player.sendMessage("传送地址或端口未设置");
             }
         } else {
-            player.sendMessage("坐标传送");
             if (cubic.getTeleportPosition() != null) {
                 player.teleport(cubic.getTeleportPosition());
-                player.sendMessage(TextFormat.YELLOW + "坐标传送:" + TextFormat.GREEN + cubic.getTeleportPosition().toString());
+//                player.sendMessage(TextFormat.YELLOW + "坐标传送:" + TextFormat.GREEN + cubic.getTeleportPosition().toString());
             } else {
                 player.sendMessage("传送点未设置");
             }
