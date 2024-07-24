@@ -1,7 +1,5 @@
 package cn.nukkitmot.banchen;
 
-import cn.nukkit.Player;
-import cn.nukkit.Server;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.PluginCommand;
 import cn.nukkit.command.data.CommandEnum;
@@ -12,13 +10,17 @@ import cn.nukkit.lang.PluginI18n;
 import cn.nukkit.level.Location;
 import cn.nukkit.utils.TextFormat;
 
+import java.util.Map;
+
 public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
 
+    private final CT_Manager ct_manager;
     protected Cubic_Transfer_Plugin api;
     public static PluginI18n i18n;
 
-    public CTCommand() {
+    public CTCommand(CT_Manager ct_manager) {
         super("ct", Cubic_Transfer_Plugin.instance);
+        this.ct_manager = ct_manager;
         this.setAliases(new String[]{"cubic_transfer"});
         this.getCommandParameters().clear();
         api = Cubic_Transfer_Plugin.instance;
@@ -51,14 +53,13 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
         switch (args[0]) {
             case "create" -> {
                 String name = args[1];
-                boolean is_success = Boolean.parseBoolean(args[2]);
-                api.getInstance().initCubic(name, is_success);
+                ct_manager.initCubic(name);
                 sender.sendMessage(TextFormat.GREEN + "立方体创建成功！");
                 return true;
             }
             case "remove" -> {
                 String name = args[1];
-                api.getInstance().removeCubic(name);
+                ct_manager.removeCubic(name);
                 sender.sendMessage(TextFormat.GREEN + "立方体删除成功！");
                 return true;
             }
@@ -66,7 +67,7 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
             case "put_name" -> {
                 String old_name = args[1];
                 String new_name = args[2];
-                api.getInstance().setCubicName(old_name, new_name);
+                ct_manager.setCubicName(old_name, new_name);
                 sender.sendMessage(TextFormat.GREEN + "立方体名字修改成功！");
                 return true;
             }
@@ -74,45 +75,90 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
             case "put_a" -> {
                 String name = args[1];
                 Location location = sender.getLocation();
-                api.getInstance().setCubicPositionA(name, location);
+                ct_manager.setCubicPositionA(name, location);
                 sender.sendMessage(TextFormat.GREEN + "立方体点A设置成功！");
             }
 //            设置点B
             case "put_b" -> {
                 String name = args[1];
                 Location location = sender.getLocation();
-                api.getInstance().setCubicPositionB(name, location);
+                ct_manager.setCubicPositionB(name, location);
                 sender.sendMessage(TextFormat.GREEN + "立方体点B设置成功！");
             }
-//          修改传送模式
+//          修改触发方式
+            case "put_ics" -> {
+                String name = args[1];
+                switch (args[2]) {
+                    case "0" -> {
+                        ct_manager.setCubicTriggerType(name, 0);
+                    }
+                    case "1" -> {
+                        ct_manager.setCubicTriggerType(name, 1);
+                    }
+                    case "2" -> {
+                        ct_manager.setCubicTriggerType(name, 2);
+                    }
+                    default -> {
+                        sender.sendMessage(TextFormat.RED + "传送模式设置失败！");
+                        return false;
+                    }
+                }
+                sender.sendMessage(TextFormat.GREEN + "立方体触发模式设置成功！");
+            }
+//            修改立方体的传送模式
             case "put_mode" -> {
                 String name = args[1];
-                api.getInstance().setCubicMode(name);
+                ct_manager.setCubicMode(name);
                 sender.sendMessage(TextFormat.GREEN + "立方体传送模式设置成功！");
             }
 //            修改立方体传送地点
             case "set_pos" -> {
                 String name = args[1];
                 Location location = sender.getLocation();
-                api.getInstance().setCubicTeleportPosition(name, location);
+                ct_manager.setCubicTeleportPosition(name, location);
                 sender.sendMessage(TextFormat.GREEN + "立方体传送地点设置成功！");
             }
 //            修改立方体传送服务器IP
             case "set_address" -> {
                 String name = args[1];
                 String address = args[2];
-                api.getInstance().setCubicAddress(name, address);
+                ct_manager.setCubicAddress(name, address);
             }
 //            修改立方体传送服务器端口
             case "set_port" -> {
                 String name = args[1];
                 int port = Integer.parseInt(args[2]);
-                api.getInstance().setCubicPort(name, port);
+                ct_manager.setCubicPort(name, port);
+            }
+            case "list" -> {
+                for (Cubic cubic : ct_manager.getCubics()) {
+                    sender.sendMessage(TextFormat.GREEN + "立方体名:" + cubic.getName());
+                    sender.sendMessage(TextFormat.YELLOW + "立方体点A:" + cubic.getPositionA().toString());
+                    sender.sendMessage(TextFormat.YELLOW + "立方体点B:" + cubic.getPositionB().toString());
+//                    触发方式
+                    switch (cubic.getTriggerType()) {
+                        case 0 -> {
+                            sender.sendMessage(TextFormat.GREEN + "立方体触发方式:当玩家走进范围内");
+                        }
+                        case 1 -> {
+                            sender.sendMessage(TextFormat.GREEN + "立方体触发方式:当玩家点击范围内方块");
+                        }
+                        case 2 -> {
+                             sender.sendMessage(TextFormat.GREEN + "立方体触发方式:破坏方块");
+                        }
+                    }
+                    if (cubic.isCrossServer()) {
+                        sender.sendMessage(TextFormat.YELLOW + "立方体传送服务器IP:" + cubic.getAddress());
+                        sender.sendMessage(TextFormat.GREEN + "立方体传送服务器端口:" + cubic.getPort());
+                    } else {
+                        sender.sendMessage(TextFormat.GREEN + "立方体传送地点:" + cubic.getTeleportPosition().toString());
+                    }
+                }
             }
             default -> {
                 return false;
             }
         }
-        return  true;
+        return true;
     }
 }

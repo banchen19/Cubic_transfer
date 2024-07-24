@@ -6,6 +6,7 @@ public class Cubic {
     public String name;
     public Location positionA;
     public Location positionB;
+    public int triggerType;
     public boolean isCrossServer;
     public Location teleportPosition;
     public String address;
@@ -14,12 +15,14 @@ public class Cubic {
     public Cubic(String name,
                  Location positionA,
                  Location positionB,
+                 int triggerType,
                  boolean isCrossServer,
                  Location teleportPosition,
                  String address,
                  int port
     ) {
         this.name = name;
+        this.triggerType = triggerType;
         this.address = address;
         this.port = port;
         this.positionA = positionA;
@@ -34,6 +37,14 @@ public class Cubic {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getTriggerType() {
+        return triggerType;
+    }
+
+    public void setTriggerType(int triggerType) {
+        this.triggerType = triggerType;
     }
 
     public Location getPositionA() {
