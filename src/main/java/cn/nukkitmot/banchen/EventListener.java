@@ -33,7 +33,7 @@ public class EventListener implements Listener {
     }
 
 
-//    监听玩家攻击方块(非破坏方块)
+//    监听玩家移动
      @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
      public void onPlayerBreakBlock(EntityPortalEnterEvent event) {
          if (event.getEntity().isPlayer) {
