@@ -187,10 +187,6 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
     public static Location stringToLocation(String locationString) {
         // 反转字符串的顺序
         String[] parts = locationString.split(",");
-        if (parts.length != 3) {
-            throw new IllegalArgumentException("Invalid location string format");
-        }
-        // 转换坐标值
         double x = Double.parseDouble(parts[0]);
         double y = Double.parseDouble(parts[1]);
         double z = Double.parseDouble(parts[2]);
@@ -201,7 +197,7 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
     }
 
     // 获取所有立方体
-    public List<Cubic> getCubics() {
+    public List<Cubic> getCubics(Player player) {
         List<Cubic> cubics = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM ct")) {
             ResultSet resultSet = statement.executeQuery();
@@ -214,21 +210,26 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
                 String pos = resultSet.getString("pos");
                 String address = resultSet.getString("address");
                 int port = resultSet.getInt("port");
-                if (a == null) {
-                    a = "未设置";
+                if (is_cross_server) {
+                    if (a == null) {
+                        player.sendMessage(TextFormat.RED+ "立方体: "+ name + ":坐标A未设置");
+                    }
+                    if (b == null) {
+                        player.sendMessage(TextFormat.RED + "立方体: "+ name + ":坐标B未设置");
+                    }
+                } else {
+                    if (pos == null) {
+                        player.sendMessage(TextFormat.RED + "立方体: "+ name + ":传送点未设置");
+                    }
+                    if (address == null) {
+                        player.sendMessage(TextFormat.RED+ "立方体: " + name + ":跨服IP未设置");
+                    }
                 }
-                if (b == null) {
-                    b = "未设置";
+                if (a != null && b != null) {
+                    cubics.add(new Cubic(name, stringToLocation(a), stringToLocation(b), triggerType, is_cross_server,
+                            stringToLocation(pos),
+                            address, port));
                 }
-                if (pos == null) {
-                    pos = "未设置";
-                }
-                if (address == null) {
-                    address = "未设置";
-                }
-                cubics.add(new Cubic(name, stringToLocation(a), stringToLocation(b), triggerType, is_cross_server,
-                        stringToLocation(pos),
-                        address, port));
             }
         } catch (SQLException e) {
             this.getLogger().info(e.getMessage());
@@ -238,7 +239,7 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
 
     //    查询指定坐标是否在立方体内
     public boolean Transfer(Player player, Location location, int i) {
-        for (Cubic cubic : getCubics()) {
+        for (Cubic cubic : getCubics(player)) {
             if (isInCubic(location, cubic.getPositionA(), cubic.getPositionB())) {
                 if (cubic.getTriggerType() == i) {
                     Transfer_Mode(player, cubic);

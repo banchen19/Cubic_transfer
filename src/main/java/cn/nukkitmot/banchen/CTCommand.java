@@ -1,5 +1,6 @@
 package cn.nukkitmot.banchen;
 
+import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.PluginCommand;
 import cn.nukkit.lang.LangCode;
@@ -59,7 +60,7 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
                 return true;
             }
 //            修改立方体名字
-            case "put_name" -> {
+            case "set_name" -> {
                 String old_name = args[1];
                 String new_name = args[2];
                 ct_manager.setCubicName(old_name, new_name);
@@ -67,21 +68,21 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
                 return true;
             }
 //          设置点A
-            case "put_a" -> {
+            case "set_a" -> {
                 String name = args[1];
                 Location location = sender.getLocation();
                 ct_manager.setCubicPositionA(name, location);
                 sender.sendMessage(TextFormat.GREEN + "立方体点A设置成功！");
             }
 //            设置点B
-            case "put_b" -> {
+            case "set_b" -> {
                 String name = args[1];
                 Location location = sender.getLocation();
                 ct_manager.setCubicPositionB(name, location);
                 sender.sendMessage(TextFormat.GREEN + "立方体点B设置成功！");
             }
 //          修改触发方式
-            case "put_ics" -> {
+            case "set_ics" -> {
                 String name = args[1];
                 switch (args[2]) {
                     case "0" -> {
@@ -99,7 +100,7 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
                 }
             }
 //            修改立方体的传送模式
-            case "put_mode" -> {
+            case "set_mode" -> {
                 String name = args[1];
                 ct_manager.setCubicMode(name);
                 sender.sendMessage(TextFormat.GREEN + "立方体传送模式设置成功！");
@@ -124,7 +125,7 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
                 ct_manager.setCubicPort(name, port);
             }
             case "list" -> {
-                for (Cubic cubic : ct_manager.getCubics()) {
+                for (Cubic cubic : ct_manager.getCubics((Player) sender)) {
                     sender.sendMessage(TextFormat.BLUE + "立方体名:" + TextFormat.GREEN + cubic.getName());
                     sender.sendMessage(TextFormat.YELLOW + "立方体点A:\n" + TextFormat.GREEN + cubic.getPositionA().toString());
                     sender.sendMessage(TextFormat.YELLOW + "立方体点B:\n" + TextFormat.GREEN + cubic.getPositionB().toString());
