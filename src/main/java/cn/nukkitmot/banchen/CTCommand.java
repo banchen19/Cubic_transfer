@@ -113,16 +113,18 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
                 sender.sendMessage(TextFormat.GREEN + "立方体传送地点设置成功！");
             }
 //            修改立方体传送服务器IP
-            case "set_address" -> {
+            case "set_ip" -> {
                 String name = args[1];
                 String address = args[2];
                 ct_manager.setCubicAddress(name, address);
+                sender.sendMessage(TextFormat.GREEN + "立方体传送服务器IP设置成功！");
             }
 //            修改立方体传送服务器端口
             case "set_port" -> {
                 String name = args[1];
                 int port = Integer.parseInt(args[2]);
                 ct_manager.setCubicPort(name, port);
+                sender.sendMessage(TextFormat.GREEN + "立方体传送端口设置成功！");
             }
             case "list" -> {
                 for (Cubic cubic : ct_manager.getCubics((Player) sender)) {
