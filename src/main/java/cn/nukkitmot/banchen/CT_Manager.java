@@ -236,10 +236,12 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
     }
 
     //    查询指定坐标是否在立方体内
-    public boolean Transfer(Player player, Location location) {
+    public boolean Transfer(Player player, Location location, int i) {
         for (Cubic cubic : getCubics()) {
             if (isInCubic(location, cubic.getPositionA(), cubic.getPositionB())) {
-                Transfer_Mode(player, cubic);
+                if (cubic.getTriggerType() == i) {
+                    Transfer_Mode(player, cubic);
+                }
             }
         }
         return false;

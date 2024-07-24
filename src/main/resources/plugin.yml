@@ -15,7 +15,7 @@ loadbefore: ["ImportantPlugin"]
 
 commands:
   ct:
-    description: 立方的建立管理与删除
+    description: 立方传送的建立管理与删除
     usage: "/ct"
     aliases: ["cubic_transfer"]
     permission: ct.command

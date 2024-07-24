@@ -8,6 +8,9 @@ import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.entity.EntityMotionEvent;
 import cn.nukkit.event.entity.EntityPortalEnterEvent;
+import cn.nukkit.event.player.PlayerInteractEvent;
+import cn.nukkit.event.player.PlayerMissedSwingEvent;
+import cn.nukkit.event.player.PlayerMoveEvent;
 
 /**
  * author: MagicDroidX
@@ -24,28 +27,17 @@ public class EventListener implements Listener {
 
     //    监听玩家移动->0
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
-    public void onPlayerBreakBlock(EntityMotionEvent event) {
-        if (event.getEntity().isPlayer) {
-            Entity entity = event.getEntity();
-            Player player = entity.getServer().getPlayer(entity.getName());
-            this.ct_manager.Transfer(player, player.getLocation());
-        }
+    public void onPlayerBreakBlock(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        this.ct_manager.Transfer(player, player.getLocation(), 0);
     }
 
 
-//    监听玩家移动
-     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
-     public void onPlayerBreakBlock(EntityPortalEnterEvent event) {
-         if (event.getEntity().isPlayer) {
-             Entity entity = event.getEntity();
-             Player player = entity.getServer().getPlayer(entity.getName());
-             this.ct_manager.Transfer(player, player.getLocation());
-         }
-     }
-    //    监听玩家破坏方块->3
+    //    玩家与方块交互事件
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
-    public void onPlayerBreakBlock(BlockBreakEvent event) {
-        this.ct_manager.Transfer(event.getPlayer(), event.getBlock().getLocation());
+    public void onPlayerBreakBlock(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        this.ct_manager.Transfer(player, event.getBlock().getLocation(), 1);
     }
 
 }

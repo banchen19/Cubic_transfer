@@ -2,15 +2,10 @@ package cn.nukkitmot.banchen;
 
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.PluginCommand;
-import cn.nukkit.command.data.CommandEnum;
-import cn.nukkit.command.data.CommandParamType;
-import cn.nukkit.command.data.CommandParameter;
 import cn.nukkit.lang.LangCode;
 import cn.nukkit.lang.PluginI18n;
 import cn.nukkit.level.Location;
 import cn.nukkit.utils.TextFormat;
-
-import java.util.Map;
 
 public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
 
@@ -91,19 +86,17 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
                 switch (args[2]) {
                     case "0" -> {
                         ct_manager.setCubicTriggerType(name, 0);
+                        sender.sendMessage(TextFormat.GREEN + "立方体触发模式设置成功: 走进范围内");
                     }
                     case "1" -> {
                         ct_manager.setCubicTriggerType(name, 1);
-                    }
-                    case "2" -> {
-                        ct_manager.setCubicTriggerType(name, 2);
+                        sender.sendMessage(TextFormat.GREEN + "立方体触发模式设置成功: 与范围内方块互动");
                     }
                     default -> {
                         sender.sendMessage(TextFormat.RED + "传送模式设置失败！");
                         return false;
                     }
                 }
-                sender.sendMessage(TextFormat.GREEN + "立方体触发模式设置成功！");
             }
 //            修改立方体的传送模式
             case "put_mode" -> {
@@ -132,27 +125,25 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
             }
             case "list" -> {
                 for (Cubic cubic : ct_manager.getCubics()) {
-                    sender.sendMessage(TextFormat.GREEN + "立方体名:" + cubic.getName());
-                    sender.sendMessage(TextFormat.YELLOW + "立方体点A:" + cubic.getPositionA().toString());
-                    sender.sendMessage(TextFormat.YELLOW + "立方体点B:" + cubic.getPositionB().toString());
+                    sender.sendMessage(TextFormat.BLUE + "立方体名:" + TextFormat.GREEN + cubic.getName());
+                    sender.sendMessage(TextFormat.YELLOW + "立方体点A:\n" + TextFormat.GREEN + cubic.getPositionA().toString());
+                    sender.sendMessage(TextFormat.YELLOW + "立方体点B:\n" + TextFormat.GREEN + cubic.getPositionB().toString());
 //                    触发方式
                     switch (cubic.getTriggerType()) {
                         case 0 -> {
-                            sender.sendMessage(TextFormat.GREEN + "立方体触发方式:当玩家走进范围内");
+                            sender.sendMessage(TextFormat.YELLOW + "触发方式:" + TextFormat.GREEN + "当玩家走进范围内");
                         }
                         case 1 -> {
-                            sender.sendMessage(TextFormat.GREEN + "立方体触发方式:当玩家点击范围内方块");
-                        }
-                        case 2 -> {
-                             sender.sendMessage(TextFormat.GREEN + "立方体触发方式:破坏方块");
+                            sender.sendMessage(TextFormat.YELLOW + "触发方式:" + TextFormat.GREEN + "当玩家交互范围内方块");
                         }
                     }
                     if (cubic.isCrossServer()) {
-                        sender.sendMessage(TextFormat.YELLOW + "立方体传送服务器IP:" + cubic.getAddress());
-                        sender.sendMessage(TextFormat.GREEN + "立方体传送服务器端口:" + cubic.getPort());
+                        sender.sendMessage(TextFormat.YELLOW + "立方体传送服务器IP:" + TextFormat.GREEN + cubic.getAddress());
+                        sender.sendMessage(TextFormat.YELLOW + "立方体传送服务器端口:" + TextFormat.GREEN + cubic.getPort());
                     } else {
-                        sender.sendMessage(TextFormat.GREEN + "立方体传送地点:" + cubic.getTeleportPosition().toString());
+                        sender.sendMessage(TextFormat.YELLOW + "立方体传送地点:\n" + TextFormat.GREEN + cubic.getTeleportPosition().toString());
                     }
+                    sender.sendMessage(TextFormat.RED + "------------------------");
                 }
             }
             default -> {
