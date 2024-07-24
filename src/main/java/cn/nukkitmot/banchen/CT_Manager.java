@@ -210,7 +210,7 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
                 String pos = resultSet.getString("pos");
                 String address = resultSet.getString("address");
                 int port = resultSet.getInt("port");
-                if (is_cross_server) {
+                if (!is_cross_server) {
                     if (a == null) {
                         player.sendMessage(TextFormat.RED+ "立方体: "+ name + ":坐标A未设置");
                     }
