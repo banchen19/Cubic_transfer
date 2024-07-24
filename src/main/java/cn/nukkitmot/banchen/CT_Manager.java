@@ -174,16 +174,13 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
 // 从Location的toString()表示中提取坐标和世界名称
     public static String extractLocationInfo(Location location) {
         // 正则表达式匹配x, y, z坐标
-        String regex = "x=([^,]+), y=([^,]+), z=([^,]+)";
-        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(regex).matcher(location.toString());
-        if (matcher.find()) {
-            String x = matcher.group(1);
-            String y = matcher.group(2);
-            String z = matcher.group(3);
-            return x + "," + y + "," + z;
-        } else {
-            throw new IllegalArgumentException("Invalid location string format");
-        }
+        String x = location.getX() + "";
+        String y = location.getY() + "";
+        String z = location.getZ() + "";
+        String yaw = location.getYaw() + "";
+        String pitch = location.getPitch() + "";
+        String headYaw = location.getYaw() + "";
+        return x + "," + y + "," + z + "," + yaw + "," + pitch + "," + headYaw;
     }
 
     //    将字符串转换为坐标
@@ -197,8 +194,10 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
         double x = Double.parseDouble(parts[0]);
         double y = Double.parseDouble(parts[1]);
         double z = Double.parseDouble(parts[2]);
-        // 创建并返回Location对象
-        return new Location(x, y, z);
+        double yaw = Double.parseDouble(parts[3]);
+        double pitch = Double.parseDouble(parts[4]);
+        double headYaw = Double.parseDouble(parts[5]);
+        return new Location(x, y, z, yaw, pitch, headYaw);
     }
 
     // 获取所有立方体
@@ -227,7 +226,9 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
                 if (address == null) {
                     address = "未设置";
                 }
-                cubics.add(new Cubic(name, stringToLocation(a), stringToLocation(b), triggerType, is_cross_server, stringToLocation(pos), address, port));
+                cubics.add(new Cubic(name, stringToLocation(a), stringToLocation(b), triggerType, is_cross_server,
+                        stringToLocation(pos),
+                        address, port));
             }
         } catch (SQLException e) {
             this.getLogger().info(e.getMessage());
