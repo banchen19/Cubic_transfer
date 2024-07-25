@@ -185,15 +185,20 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
 
     //    将字符串转换为坐标
     public static Location stringToLocation(String locationString) {
-        // 反转字符串的顺序
-        String[] parts = locationString.split(",");
-        double x = Double.parseDouble(parts[0]);
-        double y = Double.parseDouble(parts[1]);
-        double z = Double.parseDouble(parts[2]);
-        double yaw = Double.parseDouble(parts[3]);
-        double pitch = Double.parseDouble(parts[4]);
-        double headYaw = Double.parseDouble(parts[5]);
-        return new Location(x, y, z, yaw, pitch, headYaw);
+        try {
+            // 反转字符串的顺序
+            String[] parts = locationString.split(",");
+            double x = Double.parseDouble(parts[0]);
+            double y = Double.parseDouble(parts[1]);
+            double z = Double.parseDouble(parts[2]);
+            double yaw = Double.parseDouble(parts[3]);
+            double pitch = Double.parseDouble(parts[4]);
+            double headYaw = Double.parseDouble(parts[5]);
+            return new Location(x, y, z, yaw, pitch, headYaw);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     // 获取所有立方体
