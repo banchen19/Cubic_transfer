@@ -208,27 +208,30 @@ public class CT_Manager extends Cubic_Transfer_Plugin {
                 boolean is_cross_server = resultSet.getBoolean("is_cross_server");
                 int triggerType = resultSet.getInt("trigger_type");
                 String pos = resultSet.getString("pos");
-                String address = resultSet.getString("address");
+                String ip = resultSet.getString("address");
                 int port = resultSet.getInt("port");
                 if (!is_cross_server) {
                     if (a == null) {
-                        player.sendMessage(TextFormat.RED+ "立方体: "+ name + ":坐标A未设置");
+                        player.sendMessage(TextFormat.RED + "立方体: " + name + ":坐标A未设置");
                     }
                     if (b == null) {
-                        player.sendMessage(TextFormat.RED + "立方体: "+ name + ":坐标B未设置");
+                        player.sendMessage(TextFormat.RED + "立方体: " + name + ":坐标B未设置");
                     }
-                } else {
                     if (pos == null) {
-                        player.sendMessage(TextFormat.RED + "立方体: "+ name + ":传送点未设置");
+                        player.sendMessage(TextFormat.RED + "立方体: " + name + ":传送点未设置");
+                        break;
                     }
-                    if (address == null) {
-                        player.sendMessage(TextFormat.RED+ "立方体: " + name + ":跨服IP未设置");
-                    }
-                }
-                if (a != null && b != null) {
                     cubics.add(new Cubic(name, stringToLocation(a), stringToLocation(b), triggerType, is_cross_server,
                             stringToLocation(pos),
-                            address, port));
+                            ip, port));
+                } else {
+                    if (ip == null) {
+                        player.sendMessage(TextFormat.RED + "立方体: " + name + ":跨服IP未设置");
+                        break;
+                    }
+                    cubics.add(new Cubic(name, stringToLocation(a), stringToLocation(b), triggerType, is_cross_server,
+                            stringToLocation(pos),
+                            ip, port));
                 }
             }
         } catch (SQLException e) {

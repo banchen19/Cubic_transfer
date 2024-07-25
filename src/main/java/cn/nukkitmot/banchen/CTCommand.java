@@ -149,6 +149,7 @@ public class CTCommand extends PluginCommand<Cubic_Transfer_Plugin> {
                     sender.sendMessage(TextFormat.RED + "------------------------");
                 }
             }
+
             default -> {
                 return false;
             }

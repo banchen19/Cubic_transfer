@@ -3,23 +3,45 @@ name: Cubic_Transfer_Plugin
 main: cn.nukkitmot.banchen.Cubic_Transfer_Plugin
 #remember version and api is string, don't write it like this: 1.0.0, or there will be an exception
 version: "1.0.0"
-api: ["1.0.5"]
+api: [ "1.0.5" ]
 load: POSTWORLD
 author: banchen
 # Authors and author will be added together in one list.
-authors: ["banchen"]
+authors: [ "banchen" ]
 description: 这是一个立方传送插件
 website: https://github.com/banchen19/Cubic_transfer
 prefix: "立方传送"
-loadbefore: ["ImportantPlugin"]
+loadbefore: [ "ImportantPlugin" ]
 
 commands:
   ct:
     description: 立方传送的建立管理与删除
     usage: "/ct"
-    aliases: ["cubic_transfer"]
+    aliases: [ "cubic_transfer" ]
     permission: ct.command
     permission-message: "You do not have the required permission to run /example"
+  ct create <立方体名>:
+    description: 创建立方体
+  ct delete <立方体名>:
+    description: 删除立方体
+  ct list:
+    description: 列出所有立方体
+  ct set_name <立方体名> <立方体名称>:
+    description: 设置立方体名称
+  ct set_a <立方体名>:
+    description: 设置立方体A点
+  ct set_b <立方体名>:
+    description: 设置立方体B点
+  ct set_pos <立方体名>:
+    description: 设置传送点
+  ct set_ip <立方体名> <服务器IP>:
+    description: 设置传送服务器IP
+  ct set_port <立方体名> <服务器端口>:
+    description: 设置传送服务器端口
+  ct set_mode <立方体名>:
+    description: 调整传送模式
+  ct set_ics <立方体名> <触发类型>:
+    description: 设置立方体的触发方式。触发类型可以是：0（走进范围）、1（方块交互）。
 permissions:
   ct.command:
     description: "你还没有拥有这个权限"
